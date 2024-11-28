@@ -5,6 +5,7 @@ import HeaderComponent from "./components/HeaderComponent";
 import FooterComponent from "./components/FooterComponent";
 import CreateBoardComponent from "./components/CreateBoardComponent";
 import ReadBoardComponent from "./components/ReadBoardComponent";
+import Join from "./components/member/Join";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               path="/read-board/:no"
               element={<ReadBoardComponent />}
             ></Route>
+            <Route path="/member/join" element={<Join />}></Route>
           </Routes>
         </div>
         <FooterComponent />
