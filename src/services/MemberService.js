@@ -10,6 +10,14 @@ class MemberService {
   joinMember(member) {
     return axios.post(MEMBER_API_BASE_URL + "/v1/customers/member", member);
   }
+
+  loginMember(member) {
+    return axios.post(MEMBER_API_BASE_URL + "/v1/customers/login", member);
+  }
+
+  logoutMember() {
+    return axios.get(MEMBER_API_BASE_URL + "/v1/customers/logout");
+  }
 }
 
 export default new MemberService();
