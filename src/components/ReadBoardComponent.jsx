@@ -25,9 +25,9 @@ function ReadBoardComponent() {
     const returnBoardType = (type) => {
         let strType = "";
 
-        if (type == 1) {
+        if (type === 1) {
             strType = "자유게시판";
-        } else if (type == 2) {
+        } else if (type === 2) {
             strType = "QnA 게시판";
         } else {
             strType = "기타";
@@ -86,11 +86,11 @@ function ReadBoardComponent() {
                     </div>
 
                     <div className='row'>
-                        <label> MemberNo </label> : {board.memberNo}
+                        <label> 작성자 </label> : {board.memberId}
                     </div>
                     {returnDate(board.createdTime, board.updatedTime)}
-                    <button className='btn btn-primary' onClick={goUpdateBoard} style={{ marginLeft: "10px" }}>수정하러 가기</button>
                     <button className='btn btn-primary' onClick={goBoardList} style={{ marginLeft: "10px" }}>글 목록으로 이동</button>
+                    <button className='btn btn-primary' onClick={goUpdateBoard} style={{ marginLeft: "10px" }}>수정하러 가기</button>
                     <button className='btn btn-primary' onClick={deleteBoard} style={{ marginLeft: "10px" }}>삭제하기</button>
                 </div>
             </div>

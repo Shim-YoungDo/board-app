@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 
 function ListBoardComponent() {
     const [boards, setBoards] = useState([]);
+    const isLogin = sessionStorage.getItem("IS_LOGIN");
 
     const navigate = useNavigate();
 
@@ -21,6 +22,11 @@ function ListBoardComponent() {
     }, [])
 
     const createBoard = () => {
+        if (isLogin === "N") {
+            alert("글작성은 로그인 후 가능합니다. 로그인 해주세요.");
+            navigate("/member/login");
+            return false;
+        }
         navigate("/create-board");
     }
 
@@ -54,7 +60,7 @@ function ListBoardComponent() {
                                     <tr key={board.no}>
                                         <td>{board.no}</td>
                                         <td> <a onClick={() => readBoard(board.no)}> {board.title} </a> </td>
-                                        <td>{board.memberNo}</td>
+                                        <td>{board.memberId}</td>
                                         <td>{dayjs(board.createdTime).format('YYYY-MM-DD HH:mm:ss')}</td>
                                         <td>{dayjs(board.updatedTime).format('YYYY-MM-DD HH:mm')}</td>
                                         <td>{board.likes}</td>
