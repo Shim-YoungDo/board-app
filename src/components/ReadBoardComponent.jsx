@@ -14,7 +14,7 @@ function ReadBoardComponent() {
         BoardService.getBoardDetail(no).then(res => {
             let response = res.data;
             if (response.resultCode === "SUCCESS") {
-                const data = response.data;
+                const data = JSON.parse(response.data);
                 setBoard(data);
             } else {
 
@@ -90,8 +90,12 @@ function ReadBoardComponent() {
                     </div>
                     {returnDate(board.createdTime, board.updatedTime)}
                     <button className='btn btn-primary' onClick={goBoardList} style={{ marginLeft: "10px" }}>글 목록으로 이동</button>
-                    <button className='btn btn-primary' onClick={goUpdateBoard} style={{ marginLeft: "10px" }}>수정하러 가기</button>
-                    <button className='btn btn-primary' onClick={deleteBoard} style={{ marginLeft: "10px" }}>삭제하기</button>
+                    {board.updateAvalYn === "Y" &&
+                        <>
+                            <button className='btn btn-primary' onClick={goUpdateBoard} style={{ marginLeft: "10px" }}>수정하러 가기</button>
+                            <button className='btn btn-primary' onClick={deleteBoard} style={{ marginLeft: "10px" }}>삭제하기</button>
+                        </>
+                    }
                 </div>
             </div>
         </div>
