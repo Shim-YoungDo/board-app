@@ -18,6 +18,10 @@ class MemberService {
   logoutMember() {
     return axios.get(MEMBER_API_BASE_URL + "/v1/customers/logout");
   }
+
+  checkLogin() {
+    return axios.get(MEMBER_API_BASE_URL + "/v1/customers/checkLogin");
+  }
 }
 
 export default new MemberService();

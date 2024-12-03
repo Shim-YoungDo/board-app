@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import BoardService from "../services/BoardService";
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import * as common from "../utils/common_function";
 
 function CreateBoardComponent() {
     const navigate = useNavigate();
@@ -43,6 +44,12 @@ function CreateBoardComponent() {
     }, []);
 
     const createBoard = (param) => {
+        if (!common.checkLogin()) {
+            alert("장시간 입력이 없어 정보를 가져올 수 없습니다. 다시 진행해주세요.");
+            sessionStorage.setItem("IS_LOGIN", "N");
+            navigate("/");
+            return false;
+        }
         if (createType === "update") {
             BoardService.updateBoard(no, param).then(res => {
                 let response = res.data;
