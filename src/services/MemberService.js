@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const MEMBER_API_BASE_URL = "http://localhost:8080/customer";
+const MEMBER_API_BASE_URL = "/customer";
 
 class MemberService {
   idCheck(member) {
