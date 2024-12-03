@@ -11,6 +11,10 @@ class BoardService {
     return axios.post(BOARD_API_BASE_URL, board);
   }
 
+  updateBoard(no, board) {
+    return axios.put(BOARD_API_BASE_URL + "/" + no, board);
+  }
+
   getBoardDetail(no) {
     return axios.get(BOARD_API_BASE_URL + "/" + no);
   }

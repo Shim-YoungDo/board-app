@@ -36,24 +36,35 @@ function CreateBoardComponent() {
                     setValue("title", data.title);
                     setValue("contents", data.contents);
                 } else {
-
+                    alert(response.resultMessage);
                 }
             });
         }
     }, []);
 
     const createBoard = (param) => {
-        BoardService.createBoard(param).then(res => {
-            let response = res.data;
-            if (response.resultCode === "SUCCESS") {
-                const msgType = createType == "update" ? "수정" : "저장";
+        if (createType === "update") {
+            BoardService.updateBoard(no, param).then(res => {
+                let response = res.data;
+                if (response.resultCode === "SUCCESS") {
+                    alert("수정이 완료되었습니다.");
+                    navigate('/board');
+                } else {
+                    alert(response.resultMessage);
+                }
+            });
 
-                alert(msgType + "이 완료되었습니다.");
-                navigate('/board');
-            } else {
-                alert(response.resultMessage);
-            }
-        });
+        } else {
+            BoardService.createBoard(param).then(res => {
+                let response = res.data;
+                if (response.resultCode === "SUCCESS") {
+                    alert("저장이 완료되었습니다.");
+                    navigate('/board');
+                } else {
+                    alert(response.resultMessage);
+                }
+            });
+        }
     }
 
     const cancel = () => {
