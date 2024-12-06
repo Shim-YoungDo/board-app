@@ -16,7 +16,7 @@ function ListBoardComponent() {
                 const data = JSON.parse(response.data);
                 setBoards(data.boardList);
             } else {
-
+                alert(response.resultMessage);
             }
         });
     }, [])

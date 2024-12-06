@@ -58,6 +58,10 @@ function CreateBoardComponent() {
                     navigate('/board');
                 } else {
                     alert(response.resultMessage);
+                    if (response.apiResultCode === "0099") {
+                        sessionStorage.setItem("IS_LOGIN", "N");
+                        navigate("/");
+                    }
                 }
             });
 
@@ -69,6 +73,10 @@ function CreateBoardComponent() {
                     navigate('/board');
                 } else {
                     alert(response.resultMessage);
+                    if (response.apiResultCode === "0099") {
+                        sessionStorage.setItem("IS_LOGIN", "N");
+                        navigate("/");
+                    }
                 }
             });
         }
