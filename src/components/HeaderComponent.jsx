@@ -5,7 +5,7 @@ function HeaderComponent() {
         <div>
             <header>
                 <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-                    <div><a href="http://localhost:3000" className="navbar-brand"> Board-FullStack-App</a></div>
+                    <div><a href="http://localhost:3000" className="navbar-brand"> 게시판</a></div>
                 </nav>
             </header>
         </div>

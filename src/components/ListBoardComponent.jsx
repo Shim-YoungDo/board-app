@@ -22,7 +22,7 @@ function ListBoardComponent() {
     }, [])
 
     const createBoard = () => {
-        if (isLogin === "N") {
+        if (isLogin === "N" || !isLogin) {
             alert("글작성은 로그인 후 가능합니다. 로그인 해주세요.");
             navigate("/member/login");
             return false;
@@ -36,7 +36,7 @@ function ListBoardComponent() {
 
     return (
         <div>
-            <h2 className='text-center'>Boards List</h2>
+            <h2 className='text-center'>목록</h2>
             <div className='row'>
                 <button className='btn btn-primary' onClick={createBoard}>글 작성</button>
             </div>

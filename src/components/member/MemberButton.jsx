@@ -38,7 +38,7 @@ function MemberButton() {
             <>
                 <div className='row'>
                     <button className='btn btn-primary' onClick={doLogout} >로그아웃</button>
-                    <button className='btn btn-primary' onClick={doMypage} >마이페이지</button>
+                    {/* <button className='btn btn-primary' onClick={doMypage} >마이페이지</button> */}
                 </div>
             </>
         )

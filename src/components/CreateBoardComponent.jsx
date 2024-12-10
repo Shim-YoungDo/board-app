@@ -43,8 +43,8 @@ function CreateBoardComponent() {
         }
     }, []);
 
-    const createBoard = (param) => {
-        if (!common.checkLogin()) {
+    const createBoard = async (param) => {
+        if (!await common.checkLogin()) {
             alert("장시간 입력이 없어 정보를 가져올 수 없습니다. 다시 진행해주세요.");
             sessionStorage.setItem("IS_LOGIN", "N");
             navigate("/");
