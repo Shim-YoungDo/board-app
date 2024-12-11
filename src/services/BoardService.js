@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BOARD_API_BASE_URL = "http://localhost:8080/api/board";
+const BOARD_API_BASE_URL = "/api/board";
 
 class BoardService {
   getBoards() {
@@ -9,6 +9,10 @@ class BoardService {
 
   createBoard(board) {
     return axios.post(BOARD_API_BASE_URL, board);
+  }
+
+  updateBoard(no, board) {
+    return axios.put(BOARD_API_BASE_URL + "/" + no, board);
   }
 
   getBoardDetail(no) {

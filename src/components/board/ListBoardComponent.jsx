@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import BoardService from '../services/BoardService';
+import BoardService from '../../services/BoardService';
 import { useNavigate } from "react-router-dom";
 import dayjs from 'dayjs';
 
 function ListBoardComponent() {
     const [boards, setBoards] = useState([]);
+    const isLogin = sessionStorage.getItem("IS_LOGIN");
 
     const navigate = useNavigate();
 
@@ -15,12 +16,17 @@ function ListBoardComponent() {
                 const data = JSON.parse(response.data);
                 setBoards(data.boardList);
             } else {
-
+                alert(response.resultMessage);
             }
         });
     }, [])
 
     const createBoard = () => {
+        if (isLogin === "N" || !isLogin) {
+            alert("글작성은 로그인 후 가능합니다. 로그인 해주세요.");
+            navigate("/member/login");
+            return false;
+        }
         navigate("/create-board");
     }
 
@@ -30,7 +36,7 @@ function ListBoardComponent() {
 
     return (
         <div>
-            <h2 className='text-center'>Boards List</h2>
+            <h2 className='text-center'>목록</h2>
             <div className='row'>
                 <button className='btn btn-primary' onClick={createBoard}>글 작성</button>
             </div>
@@ -54,7 +60,7 @@ function ListBoardComponent() {
                                     <tr key={board.no}>
                                         <td>{board.no}</td>
                                         <td> <a onClick={() => readBoard(board.no)}> {board.title} </a> </td>
-                                        <td>{board.memberNo}</td>
+                                        <td>{board.memberId}</td>
                                         <td>{dayjs(board.createdTime).format('YYYY-MM-DD HH:mm:ss')}</td>
                                         <td>{dayjs(board.updatedTime).format('YYYY-MM-DD HH:mm')}</td>
                                         <td>{board.likes}</td>

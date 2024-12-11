@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import BoardService from "../services/BoardService";
+import BoardService from "../../services/BoardService";
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import * as common from "../../utils/common_function";
 
 function CreateBoardComponent() {
     const navigate = useNavigate();
     const params = useParams();
     const [no] = useState(params.no);
-    const [board, setBoard] = useState({});
     const [searchParams] = useSearchParams();
-    const [isDisabled, setIsDisabled] = useState(true);
 
     const {
         handleSubmit,
@@ -32,24 +31,55 @@ function CreateBoardComponent() {
             BoardService.getBoardDetail(no).then(res => {
                 let response = res.data;
                 if (response.resultCode === "SUCCESS") {
-                    const data = response.data;
-                    Object.entries(data).map((e, idx) => {
-                        return setValue(e[0], e[1]);
-                    });
+                    const data = JSON.parse(response.data);
+                    setValue("no", data.no);
+                    setValue("type", data.type);
+                    setValue("title", data.title);
+                    setValue("contents", data.contents);
                 } else {
-
+                    alert(response.resultMessage);
                 }
             });
         }
     }, []);
 
-    const createBoard = (param) => {
-        BoardService.createBoard(param).then(response => {
-            const msgType = createType == "update" ? "수정" : "저장";
+    const createBoard = async (param) => {
+        if (!await common.checkLogin()) {
+            alert("장시간 입력이 없어 정보를 가져올 수 없습니다. 다시 진행해주세요.");
+            sessionStorage.setItem("IS_LOGIN", "N");
+            navigate("/");
+            return false;
+        }
+        if (createType === "update") {
+            BoardService.updateBoard(no, param).then(res => {
+                let response = res.data;
+                if (response.resultCode === "SUCCESS") {
+                    alert("수정이 완료되었습니다.");
+                    navigate('/board');
+                } else {
+                    alert(response.resultMessage);
+                    if (response.apiResultCode === "0099") {
+                        sessionStorage.setItem("IS_LOGIN", "N");
+                        navigate("/");
+                    }
+                }
+            });
 
-            alert(msgType + "이 완료되었습니다.");
-            navigate('/board');
-        });
+        } else {
+            BoardService.createBoard(param).then(res => {
+                let response = res.data;
+                if (response.resultCode === "SUCCESS") {
+                    alert("저장이 완료되었습니다.");
+                    navigate('/board');
+                } else {
+                    alert(response.resultMessage);
+                    if (response.apiResultCode === "0099") {
+                        sessionStorage.setItem("IS_LOGIN", "N");
+                        navigate("/");
+                    }
+                }
+            });
+        }
     }
 
     const cancel = () => {
@@ -61,7 +91,10 @@ function CreateBoardComponent() {
             <div className="container">
                 <div className="row">
                     <div className="card col-md-6 offset-md-3 offset-md-3">
-                        <h3 className="text-center">새 글을 작성해주세요
+                        <h3 className="text-center">
+                            {createType === "update"
+                                ? <>게시글 수정</>
+                                : <>새 글을 작성해주세요</>}
                             <div className="card-body">
                                 <form onSubmit={handleSubmit(createBoard)}>
                                     <div className="form-group">
@@ -78,8 +111,8 @@ function CreateBoardComponent() {
                                             {...register("title", {
                                                 required: { value: true, message: "제목을 입력해주세요." },
                                                 maxLength: {
-                                                    value: 8,
-                                                    message: "제목은 8자리 까지 입력 가능합니다.",
+                                                    value: 50,
+                                                    message: "제목은 50자리 까지 입력 가능합니다.",
                                                 },
                                             })}
                                             error={formState.errors.title?.message ?? ''}
@@ -92,25 +125,12 @@ function CreateBoardComponent() {
                                             {...register("contents", {
                                                 required: { value: true, message: "내용을 입력해주세요." },
                                                 maxLength: {
-                                                    value: 9,
-                                                    message: "9자리까지 입력해주세요",
+                                                    value: 100,
+                                                    message: "100자리까지 입력해주세요",
                                                 },
                                             })}
                                         />
                                         {formState.errors.contents && <p style={{ color: 'red' }}>{formState.errors.contents.message}</p>}
-                                    </div>
-                                    <div className="form-group">
-                                        <label> MemberNo  </label>
-                                        <input placeholder="memberNo" name="memberNo" className="form-control"
-                                            {...register("memberNo", {
-                                                required: { value: true, message: "등록번호를 입력해주세요." },
-                                                maxLength: {
-                                                    value: 10,
-                                                    message: "10자리까지 입력해주세요",
-                                                },
-                                            })}
-                                            disabled={createType == "update" ? true : false} />
-                                        {formState.errors.memberNo && <p style={{ color: 'red' }}>{formState.errors.memberNo.message}</p>}
                                     </div>
                                     <button className="btn btn-success"
                                         disabled={!formState.isValid}
